@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -8,23 +8,13 @@
     <DefineConstants Condition="'$(USE_CHILLOUTVR)' == 'true'">$(DefineConstants);USE_CHILLOUTVR</DefineConstants>
     <DefineConstants Condition="'$(USE_WINDOWS)' == 'true'">$(DefineConstants);USE_WINDOWS</DefineConstants>
     <DefineConstants Condition="'$(USE_SYSTEMDRAWING)' == 'true'">$(DefineConstants);USE_SYSTEMDRAWING</DefineConstants>
-    <DefineConstants Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'"
-      >$(DefineConstants);USE_SYSTEMMANAGEMENT</DefineConstants
-    >
-    <DefineConstants Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'"
-      >$(DefineConstants);USE_SYSTEMWINDOWSFORMS</DefineConstants
-    >
-    <DefineConstants Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'"
-      >$(DefineConstants);USE_WINDOWSAPICODEPACK</DefineConstants
-    >
+    <DefineConstants Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'">$(DefineConstants);USE_SYSTEMMANAGEMENT</DefineConstants>
+    <DefineConstants Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">$(DefineConstants);USE_SYSTEMWINDOWSFORMS</DefineConstants>
+    <DefineConstants Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'">$(DefineConstants);USE_WINDOWSAPICODEPACK</DefineConstants>
     <DefineConstants Condition="'$(USE_FNV1A)' == 'true'">$(DefineConstants);USE_FNV1A</DefineConstants>
     <DefineConstants Condition="'$(USE_VDF)' == 'true'">$(DefineConstants);USE_VDF</DefineConstants>
-    <DefineConstants Condition="'$(USE_NEWTONSOFTJSON)' == 'true'"
-      >$(DefineConstants);USE_NEWTONSOFTJSON</DefineConstants
-    >
-    <DefineConstants Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'"
-      >$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants
-    >
+    <DefineConstants Condition="'$(USE_NEWTONSOFTJSON)' == 'true'">$(DefineConstants);USE_NEWTONSOFTJSON</DefineConstants>
+    <DefineConstants Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'">$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants>
     <DefineConstants Condition="'$(USE_NLOG)' == 'true'">$(DefineConstants);USE_NLOG</DefineConstants>
     <!-- Set default values to false -->
     <USE_UNITY Condition="'$(USE_UNITY)' == ''">false</USE_UNITY>
@@ -40,6 +30,7 @@
     <USE_NEWTONSOFTJSON Condition="'$(USE_NEWTONSOFTJSON)' == ''">false</USE_NEWTONSOFTJSON>
     <USE_SYSTEMTEXTJSON Condition="'$(USE_SYSTEMTEXTJSON)' == ''">false</USE_SYSTEMTEXTJSON>
     <USE_NLOG Condition="'$(USE_NLOG)' == ''">false</USE_NLOG>
+    <Version>1.0.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="temp\**" />
