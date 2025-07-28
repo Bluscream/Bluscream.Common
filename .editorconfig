@@ -1,0 +1,71 @@
+# .editorconfig for Blucream.Common
+root = true
+
+[*.cs]
+# C# files
+
+# Indentation and spacing
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Newline preferences
+csharp_new_line_before_open_brace = none
+csharp_new_line_between_query_expression_clauses = false
+csharp_new_line_before_members_in_object_initializers = false
+csharp_new_line_before_members_in_anonymous_types = false
+csharp_new_line_between_method_declaration_parameters = false
+csharp_new_line_between_method_call_parameters = false
+csharp_new_line_between_type_declaration_members = false
+csharp_new_line_before_finally = false
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+
+# CSharpier specific settings to reduce newlines
+csharpier_blank_line_between_methods = false
+csharpier_blank_line_between_properties = false
+csharpier_blank_line_between_fields = false
+csharpier_blank_line_between_events = false
+csharpier_blank_line_between_constructors = false
+csharpier_blank_line_between_delegates = false
+csharpier_blank_line_between_enums = false
+csharpier_blank_line_between_interfaces = false
+csharpier_blank_line_between_classes = false
+csharpier_blank_line_between_structs = false
+csharpier_blank_line_between_namespaces = false
+csharpier_blank_line_before_using_statements = false
+csharpier_blank_line_after_using_statements = false
+csharpier_blank_line_before_namespace = false
+csharpier_blank_line_after_namespace = false
+csharpier_blank_line_before_class = false
+csharpier_blank_line_after_class = false
+csharpier_blank_line_before_interface = false
+csharpier_blank_line_after_interface = false
+csharpier_blank_line_before_struct = false
+csharpier_blank_line_after_struct = false
+csharpier_blank_line_before_enum = false
+csharpier_blank_line_after_enum = false
+csharpier_blank_line_before_delegate = false
+csharpier_blank_line_after_delegate = false
+csharpier_blank_line_before_field = false
+csharpier_blank_line_after_field = false
+csharpier_blank_line_before_property = false
+csharpier_blank_line_after_property = false
+csharpier_blank_line_before_method = false
+csharpier_blank_line_after_method = false
+csharpier_blank_line_before_constructor = false
+csharpier_blank_line_after_constructor = false
+csharpier_blank_line_before_event = false
+csharpier_blank_line_after_event = false
+
+# Variable and function ordering (StyleCop)
+dotnet_diagnostic.SA1201.severity = warning
+# SA1201: Elements should appear in the correct order (fields before methods)
+
+# Optional: Fewer blank lines
+csharp_preserve_single_line_statements = true
+
+# StyleCop: Place fields before methods
+# (Requires StyleCop.Analyzers NuGet package)
+# If not using StyleCop, consider adding it for this rule enforcement. 

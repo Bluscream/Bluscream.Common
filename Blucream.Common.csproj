@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <!-- Define conditional compilation symbols -->
+    <DefineConstants Condition="'$(USE_UNITY)' == 'true'">$(DefineConstants);USE_UNITY</DefineConstants>
+    <DefineConstants Condition="'$(USE_VRCHAT)' == 'true'">$(DefineConstants);USE_VRCHAT</DefineConstants>
+    <DefineConstants Condition="'$(USE_CHILLOUTVR)' == 'true'">$(DefineConstants);USE_CHILLOUTVR</DefineConstants>
+    <DefineConstants Condition="'$(USE_WINDOWS)' == 'true'">$(DefineConstants);USE_WINDOWS</DefineConstants>
+    <DefineConstants Condition="'$(USE_SYSTEMDRAWING)' == 'true'">$(DefineConstants);USE_SYSTEMDRAWING</DefineConstants>
+    <DefineConstants Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMMANAGEMENT</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMWINDOWSFORMS</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'"
+      >$(DefineConstants);USE_WINDOWSAPICODEPACK</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_FNV1A)' == 'true'">$(DefineConstants);USE_FNV1A</DefineConstants>
+    <DefineConstants Condition="'$(USE_VDF)' == 'true'">$(DefineConstants);USE_VDF</DefineConstants>
+    <DefineConstants Condition="'$(USE_NEWTONSOFTJSON)' == 'true'"
+      >$(DefineConstants);USE_NEWTONSOFTJSON</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_NLOG)' == 'true'">$(DefineConstants);USE_NLOG</DefineConstants>
+    <!-- Set default values to false -->
+    <USE_UNITY Condition="'$(USE_UNITY)' == ''">false</USE_UNITY>
+    <USE_VRCHAT Condition="'$(USE_VRCHAT)' == ''">false</USE_VRCHAT>
+    <USE_CHILLOUTVR Condition="'$(USE_CHILLOUTVR)' == ''">false</USE_CHILLOUTVR>
+    <USE_WINDOWS Condition="'$(USE_WINDOWS)' == ''">false</USE_WINDOWS>
+    <USE_SYSTEMDRAWING Condition="'$(USE_SYSTEMDRAWING)' == ''">false</USE_SYSTEMDRAWING>
+    <USE_SYSTEMMANAGEMENT Condition="'$(USE_SYSTEMMANAGEMENT)' == ''">false</USE_SYSTEMMANAGEMENT>
+    <USE_SYSTEMWINDOWSFORMS Condition="'$(USE_SYSTEMWINDOWSFORMS)' == ''">false</USE_SYSTEMWINDOWSFORMS>
+    <USE_WINDOWSAPICODEPACK Condition="'$(USE_WINDOWSAPICODEPACK)' == ''">false</USE_WINDOWSAPICODEPACK>
+    <USE_FNV1A Condition="'$(USE_FNV1A)' == ''">false</USE_FNV1A>
+    <USE_VDF Condition="'$(USE_VDF)' == ''">false</USE_VDF>
+    <USE_NEWTONSOFTJSON Condition="'$(USE_NEWTONSOFTJSON)' == ''">false</USE_NEWTONSOFTJSON>
+    <USE_SYSTEMTEXTJSON Condition="'$(USE_SYSTEMTEXTJSON)' == ''">false</USE_SYSTEMTEXTJSON>
+    <USE_NLOG Condition="'$(USE_NLOG)' == ''">false</USE_NLOG>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="temp\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="temp\**" />
+  </ItemGroup>
+  <!-- Conditional package references -->
+  <ItemGroup Condition="'$(USE_UNITY)' == 'true'">
+    <PackageReference Include="UnityEngine" Version="2022.3.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_SYSTEMDRAWING)' == 'true'">
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'">
+    <PackageReference Include="System.Management" Version="7.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">
+    <PackageReference Include="System.Windows.Forms" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'">
+    <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
+  </ItemGroup>
+  <!-- Conditional package references for core libraries -->
+  <ItemGroup Condition="'$(USE_FNV1A)' == 'true'">
+    <PackageReference Include="Fnv1a" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_VDF)' == 'true'">
+    <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_NEWTONSOFTJSON)' == 'true'">
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'">
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_NLOG)' == 'true'">
+    <PackageReference Include="NLog" Version="5.2.0" />
+  </ItemGroup>
+</Project>
