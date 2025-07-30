@@ -12,10 +12,10 @@ namespace Bluscream;
 public static partial class Utils
 {
     #region FileInfo
-    public static FileInfo PickFile(
-        string title = null,
-        string initialDirectory = null,
-        string filter = null
+    public static FileInfo? PickFile(
+        string? title = null,
+        string? initialDirectory = null,
+        string? filter = null
     )
     {
         using (var fileDialog = new OpenFileDialog())
@@ -38,12 +38,12 @@ public static partial class Utils
         }
     }
 
-    public static FileInfo SaveFile(
-        string title = null,
-        string initialDirectory = null,
-        string filter = null,
-        string fileName = null,
-        string content = null
+    public static FileInfo? SaveFile(
+        string? title = null,
+        string? initialDirectory = null,
+        string? filter = null,
+        string? fileName = null,
+        string? content = null
     )
     {
         using (var fileDialog = new SaveFileDialog())

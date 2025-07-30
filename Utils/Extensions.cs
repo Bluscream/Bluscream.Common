@@ -47,30 +47,39 @@ public static partial class Extensions
     public static object ConvertPropertyToDictionary(PropertyInfo propertyInfo, object owner)
     {
         Type propertyType = propertyInfo.PropertyType;
-        object propertyValue = propertyInfo.GetValue(owner);
+        object? propertyValue = propertyInfo.GetValue(owner);
+        if (propertyValue == null) return new object();
+        
         if (
             !propertyType.Equals(typeof(string))
             && (
-                typeof(ICollection<>).Name.Equals(propertyValue.GetType().BaseType.Name)
-                || typeof(Collection<>).Name.Equals(propertyValue.GetType().BaseType.Name)
+                typeof(ICollection<>).Name.Equals(propertyValue.GetType().BaseType?.Name)
+                || typeof(Collection<>).Name.Equals(propertyValue.GetType().BaseType?.Name)
             )
         )
         {
             var collectionItems = new List<Dictionary<string, object>>();
-            var count = (int)propertyType.GetProperty("Count").GetValue(propertyValue);
-            PropertyInfo indexerProperty = propertyType.GetProperty("Item");
-            for (var index = 0; index < count; index++)
+            var countProperty = propertyType.GetProperty("Count");
+            var indexerProperty = propertyType.GetProperty("Item");
+            
+            if (countProperty?.GetValue(propertyValue) is int count && indexerProperty != null)
             {
-                object item = indexerProperty.GetValue(propertyValue, new object[] { index });
-                PropertyInfo[] itemProperties = item.GetType()
-                    .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
-                if (itemProperties.Any())
+                for (var index = 0; index < count; index++)
                 {
-                    Dictionary<string, object> dictionary = itemProperties.ToDictionary(
-                        subtypePropertyInfo => subtypePropertyInfo.Name,
-                        subtypePropertyInfo => Extensions.ConvertPropertyToDictionary(subtypePropertyInfo, item)
-                    );
-                    collectionItems.Add(dictionary);
+                    var item = indexerProperty.GetValue(propertyValue, new object[] { index });
+                    if (item != null)
+                    {
+                        PropertyInfo[] itemProperties = item.GetType()
+                            .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+                        if (itemProperties.Any())
+                        {
+                            Dictionary<string, object> dictionary = itemProperties.ToDictionary(
+                                subtypePropertyInfo => subtypePropertyInfo.Name,
+                                subtypePropertyInfo => Extensions.ConvertPropertyToDictionary(subtypePropertyInfo, item)
+                            );
+                            collectionItems.Add(dictionary);
+                        }
+                    }
                 }
             }
             return collectionItems;
@@ -188,7 +197,7 @@ public static partial class Extensions
     #region FileInfo
     public static FileInfo Combine(this FileInfo file, params string[] paths)
     {
-        var final = file.DirectoryName;
+        var final = file.DirectoryName ?? "";
         foreach (var path in paths)
         {
             final = Path.Combine(final, path);
@@ -714,7 +723,7 @@ public static partial class Extensions
         }
         else
         {
-            var queryDict = query.AllKeys.Where(k => k != null).ToDictionary(k => k, k => query[k]);
+            var queryDict = query.AllKeys.Where(k => k != null).ToDictionary(k => k!, k => query[k]!);
             queryDict[key] = value;
             var queryString = string.Join(
                 "&",
@@ -737,8 +746,8 @@ public static partial class Extensions
             throw new InvalidOperationException("The type parameter T must be an enum type.");
         if (!Enum.IsDefined(type, value))
             throw new InvalidEnumArgumentException("value", Convert.ToInt32(value), type);
-        FieldInfo fi = type.GetField(value.ToString(), BindingFlags.Static | BindingFlags.Public);
-        return fi.GetCustomAttributes(typeof(DescriptionAttribute), true)
+        FieldInfo? fi = type.GetField(value.ToString(), BindingFlags.Static | BindingFlags.Public);
+        return fi?.GetCustomAttributes(typeof(DescriptionAttribute), true)
             .Cast<DescriptionAttribute>()
             .SingleOrDefault();
     }
@@ -956,21 +965,26 @@ public static partial class Extensions
     #region CookieContainer
     public static IEnumerable<Cookie> GetAllCookies(this CookieContainer c)
     {
-        Hashtable k = (Hashtable)
-            c.GetType().GetField("m_domainTable", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(c);
+        var domainTableField = c.GetType().GetField("m_domainTable", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (domainTableField?.GetValue(c) is not Hashtable k)
+            yield break;
+            
         foreach (DictionaryEntry element in k)
         {
-            SortedList l = (SortedList)
-                element
-                    .Value.GetType()
-                    .GetField("m_list", BindingFlags.Instance | BindingFlags.NonPublic)
-                    .GetValue(element.Value);
+            if (element.Value == null) continue;
+            
+            var listField = element.Value.GetType().GetField("m_list", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (listField?.GetValue(element.Value) is not SortedList l)
+                continue;
+                
             foreach (var e in l)
             {
-                var cl = (CookieCollection)((DictionaryEntry)e).Value;
-                foreach (Cookie fc in cl)
+                if (e is DictionaryEntry de && de.Value is CookieCollection cl)
                 {
-                    yield return fc;
+                    foreach (Cookie fc in cl)
+                    {
+                        yield return fc;
+                    }
                 }
             }
         }

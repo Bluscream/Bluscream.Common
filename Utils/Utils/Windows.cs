@@ -63,7 +63,7 @@ public static partial class Utils
         ProcessStartInfo proc = new ProcessStartInfo();
         proc.UseShellExecute = true;
         proc.WorkingDirectory = Environment.CurrentDirectory;
-        proc.FileName = Assembly.GetEntryAssembly().CodeBase;
+        proc.FileName = Assembly.GetEntryAssembly()?.Location ?? Environment.ProcessPath ?? "";
         proc.Arguments += arguments.ToString();
         proc.Verb = "runas";
         try
