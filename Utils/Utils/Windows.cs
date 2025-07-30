@@ -30,6 +30,12 @@ public static partial class Utils
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern bool AllocConsole();
 
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr LoadLibrary(string lpFileName);
+
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
     [DllImport("User32.dll")]
     public static extern Int32 SetForegroundWindow(int hWnd);
 
@@ -45,7 +51,7 @@ public static partial class Utils
     [DllImport("user32.dll")]
     public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
-    [DllImport("user32.dll")]
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     public static extern bool GetFocusAssistState(out int state);
     #endregion
 
@@ -141,6 +147,10 @@ public static partial class Utils
                 }
             }
         }
+        catch (System.Management.ManagementException ex) when (ex.Message.Contains("Access denied"))
+        {
+            Console.WriteLine("[Utils] IsDoNotDisturbActiveFocusAssistCim failed: Access denied - insufficient permissions");
+        }
         catch (Exception ex)
         {
             Console.WriteLine($"[Utils] IsDoNotDisturbActiveFocusAssistCim failed: {ex.Message}");
@@ -189,6 +199,21 @@ public static partial class Utils
     {
         try
         {
+            // Check if the API is available at runtime
+            var user32Handle = LoadLibrary("user32.dll");
+            if (user32Handle == IntPtr.Zero)
+            {
+                Console.WriteLine("[Utils] user32.dll not available for GetFocusAssistState");
+                return false;
+            }
+
+            var functionAddress = GetProcAddress(user32Handle, "GetFocusAssistState");
+            if (functionAddress == IntPtr.Zero)
+            {
+                Console.WriteLine("[Utils] GetFocusAssistState function not available in user32.dll");
+                return false;
+            }
+
             if (GetFocusAssistState(out int state))
             {
                 return state == (int)FocusAssistState.PRIORITY_ONLY
