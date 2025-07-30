@@ -99,6 +99,33 @@ public static partial class Utils
         if (!string.IsNullOrEmpty(cmd)) return Path.GetFileNameWithoutExtension(cmd);
         return string.Empty;
     }
+
+    public static Dictionary<string, string> ParseQueryString(string query)
+    {
+        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        
+        if (string.IsNullOrWhiteSpace(query))
+            return result;
+
+        var pairs = query.Split('&', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var pair in pairs)
+        {
+            var keyValue = pair.Split('=', 2);
+            if (keyValue.Length == 2)
+            {
+                var key = Uri.UnescapeDataString(keyValue[0]);
+                var value = Uri.UnescapeDataString(keyValue[1]);
+                result[key] = value;
+            }
+            else if (keyValue.Length == 1)
+            {
+                var key = Uri.UnescapeDataString(keyValue[0]);
+                result[key] = string.Empty;
+            }
+        }
+        
+        return result;
+    }
     
     public static string Base64Encode(string plainText)
     {
