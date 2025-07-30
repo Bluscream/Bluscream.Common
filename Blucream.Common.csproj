@@ -30,7 +30,7 @@
     <USE_NEWTONSOFTJSON Condition="'$(USE_NEWTONSOFTJSON)' == ''">false</USE_NEWTONSOFTJSON>
     <USE_SYSTEMTEXTJSON Condition="'$(USE_SYSTEMTEXTJSON)' == ''">false</USE_SYSTEMTEXTJSON>
     <USE_NLOG Condition="'$(USE_NLOG)' == ''">false</USE_NLOG>
-    <Version>1.0.0.2</Version>
+    <Version>1.0.0.3</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="temp\**" />
