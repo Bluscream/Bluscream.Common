@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);NU1701</NoWarn>
     <!-- Define conditional compilation symbols -->
@@ -27,14 +27,14 @@
       >$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants
     >
     <DefineConstants Condition="'$(USE_NLOG)' == 'true'">$(DefineConstants);USE_NLOG</DefineConstants>
-    <!-- Set default values to false -->
+    <!-- Set default values to true for Windows-specific features when targeting Windows -->
     <USE_UNITY Condition="'$(USE_UNITY)' == ''">false</USE_UNITY>
     <USE_VRCHAT Condition="'$(USE_VRCHAT)' == ''">false</USE_VRCHAT>
     <USE_CHILLOUTVR Condition="'$(USE_CHILLOUTVR)' == ''">false</USE_CHILLOUTVR>
-    <USE_WINDOWS Condition="'$(USE_WINDOWS)' == ''">false</USE_WINDOWS>
-    <USE_SYSTEMDRAWING Condition="'$(USE_SYSTEMDRAWING)' == ''">false</USE_SYSTEMDRAWING>
-    <USE_SYSTEMMANAGEMENT Condition="'$(USE_SYSTEMMANAGEMENT)' == ''">false</USE_SYSTEMMANAGEMENT>
-    <USE_SYSTEMWINDOWSFORMS Condition="'$(USE_SYSTEMWINDOWSFORMS)' == ''">false</USE_SYSTEMWINDOWSFORMS>
+    <USE_WINDOWS Condition="'$(USE_WINDOWS)' == ''">true</USE_WINDOWS>
+    <USE_SYSTEMDRAWING Condition="'$(USE_SYSTEMDRAWING)' == ''">true</USE_SYSTEMDRAWING>
+    <USE_SYSTEMMANAGEMENT Condition="'$(USE_SYSTEMMANAGEMENT)' == ''">true</USE_SYSTEMMANAGEMENT>
+    <USE_SYSTEMWINDOWSFORMS Condition="'$(USE_SYSTEMWINDOWSFORMS)' == ''">true</USE_SYSTEMWINDOWSFORMS>
     <USE_WINDOWSAPICODEPACK Condition="'$(USE_WINDOWSAPICODEPACK)' == ''">false</USE_WINDOWSAPICODEPACK>
     <USE_FNV1A Condition="'$(USE_FNV1A)' == ''">false</USE_FNV1A>
     <USE_VDF Condition="'$(USE_VDF)' == ''">false</USE_VDF>
@@ -56,10 +56,12 @@
   <ItemGroup Condition="'$(USE_WINDOWS)' == 'true'">
     <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="System.Management" Version="7.0.2" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'">
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMDRAWING)' == 'true'">
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">
     <PackageReference Include="System.Windows.Forms" Version="4.0.0" />
