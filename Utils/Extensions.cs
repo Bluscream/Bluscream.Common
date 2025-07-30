@@ -24,8 +24,7 @@ public static partial class Extensions
 {
     public static System.Random rnd = new System.Random();
 
-    public enum BooleanStringMode
-    {
+    public enum BooleanStringMode {
         Numbers,
         TrueFalse,
         EnabledDisabled,
@@ -355,6 +354,9 @@ public static partial class Extensions
     #endregion
 
     #region string
+    public static string Quote(this FileInfo file) => file.FullName.Quote();
+    public static string Quote(this DirectoryInfo directory) => directory.FullName.Quote();
+
     public static IEnumerable<string> SplitToLines(this string input)
     {
         if (input == null)
