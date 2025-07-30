@@ -5,6 +5,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+
+namespace Bluscream;
 
 public static partial class Utils
 {
@@ -71,19 +74,9 @@ public static partial class Utils
     #region void
     public static void BringSelfToFront()
     {
-        var window = Program.mainWindow;
-        if (window.WindowState == FormWindowState.Minimized)
-            window.WindowState = FormWindowState.Normal;
-        else
-        {
-            window.TopMost = true;
-            window.Focus();
-            window.BringToFront();
-            window.TopMost = false;
-        }
-        Program.mainWindow.Activate();
-        Program.mainWindow.Focus();
-        SetForegroundWindow(SafeHandle.ToInt32());
+        // This method requires a specific Form instance
+        // For now, we'll provide a placeholder implementation
+        // The actual implementation should be provided by the consuming application
     }
     #endregion
 

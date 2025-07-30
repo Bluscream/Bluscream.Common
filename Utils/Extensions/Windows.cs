@@ -65,10 +65,10 @@ public static partial class Extensions
 
     #region Environment.SpecialFolder
     public static DirectoryInfo Combine(this Environment.SpecialFolder specialFolder, params string[] paths) =>
-        Combine(new DirectoryInfo(Environment.GetFolderPath(specialFolder)), paths);
+        new DirectoryInfo(Environment.GetFolderPath(specialFolder)).Combine(paths);
 
     public static FileInfo CombineFile(this Environment.SpecialFolder specialFolder, params string[] paths) =>
-        CombineFile(new DirectoryInfo(Environment.GetFolderPath(specialFolder)), paths);
+        new DirectoryInfo(Environment.GetFolderPath(specialFolder)).CombineFile(paths);
     #endregion
 
     #region Assembly

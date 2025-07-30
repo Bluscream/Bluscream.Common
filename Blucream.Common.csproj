@@ -8,13 +8,23 @@
     <DefineConstants Condition="'$(USE_CHILLOUTVR)' == 'true'">$(DefineConstants);USE_CHILLOUTVR</DefineConstants>
     <DefineConstants Condition="'$(USE_WINDOWS)' == 'true'">$(DefineConstants);USE_WINDOWS</DefineConstants>
     <DefineConstants Condition="'$(USE_SYSTEMDRAWING)' == 'true'">$(DefineConstants);USE_SYSTEMDRAWING</DefineConstants>
-    <DefineConstants Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'">$(DefineConstants);USE_SYSTEMMANAGEMENT</DefineConstants>
-    <DefineConstants Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">$(DefineConstants);USE_SYSTEMWINDOWSFORMS</DefineConstants>
-    <DefineConstants Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'">$(DefineConstants);USE_WINDOWSAPICODEPACK</DefineConstants>
+    <DefineConstants Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMMANAGEMENT</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMWINDOWSFORMS</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_WINDOWSAPICODEPACK)' == 'true'"
+      >$(DefineConstants);USE_WINDOWSAPICODEPACK</DefineConstants
+    >
     <DefineConstants Condition="'$(USE_FNV1A)' == 'true'">$(DefineConstants);USE_FNV1A</DefineConstants>
     <DefineConstants Condition="'$(USE_VDF)' == 'true'">$(DefineConstants);USE_VDF</DefineConstants>
-    <DefineConstants Condition="'$(USE_NEWTONSOFTJSON)' == 'true'">$(DefineConstants);USE_NEWTONSOFTJSON</DefineConstants>
-    <DefineConstants Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'">$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants>
+    <DefineConstants Condition="'$(USE_NEWTONSOFTJSON)' == 'true'"
+      >$(DefineConstants);USE_NEWTONSOFTJSON</DefineConstants
+    >
+    <DefineConstants Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'"
+      >$(DefineConstants);USE_SYSTEMTEXTJSON</DefineConstants
+    >
     <DefineConstants Condition="'$(USE_NLOG)' == 'true'">$(DefineConstants);USE_NLOG</DefineConstants>
     <!-- Set default values to false -->
     <USE_UNITY Condition="'$(USE_UNITY)' == ''">false</USE_UNITY>
@@ -42,11 +52,13 @@
   <ItemGroup Condition="'$(USE_UNITY)' == 'true'">
     <PackageReference Include="UnityEngine" Version="2022.3.0" />
   </ItemGroup>
+  <ItemGroup Condition="'$(USE_WINDOWS)' == 'true'">
+    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
+  </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMDRAWING)' == 'true'">
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(USE_SYSTEMMANAGEMENT)' == 'true'">
-    <PackageReference Include="System.Management" Version="7.0.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">
     <PackageReference Include="System.Windows.Forms" Version="4.0.0" />

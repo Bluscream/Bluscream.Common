@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
+namespace Bluscream;
+
 public static partial class Utils
 {
     #region Color
