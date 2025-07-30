@@ -15,8 +15,31 @@ namespace Bluscream;
 
 public static partial class Utils
 {
-
-
+    #region DirectoryInfo
+    public static DirectoryInfo GetOwnDir() {
+        var ownPath = GetOwnPath();
+        if (ownPath != null && ownPath.Exists && ownPath.Directory != null)
+            return ownPath.Directory;
+        var path = ownPath?.FullName ?? "";
+        if (!string.IsNullOrEmpty(path))
+        {
+            var dir = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(dir))
+                return new DirectoryInfo(dir);
+        }
+        var baseDir = AppContext.BaseDirectory;
+        if (!string.IsNullOrEmpty(baseDir) && Directory.Exists(baseDir))
+            return new DirectoryInfo(baseDir);
+        var entryLoc = Assembly.GetEntryAssembly()?.Location;
+        if (!string.IsNullOrEmpty(entryLoc))
+        {
+            var dir = Path.GetDirectoryName(entryLoc);
+            if (!string.IsNullOrEmpty(dir))
+                return new DirectoryInfo(dir);
+        }
+        return new DirectoryInfo(Environment.CurrentDirectory);
+    }
+    #endregion
 
     #region List<int>
     public static List<int> GetPadding(
@@ -44,16 +67,17 @@ public static partial class Utils
         return $"{outer}{new string(' ', padded[index: 0])}{input}{new string(' ', padded[1])}{outer}";
     }
 
-    public static string Log(string text, int length = 73)
+    public static void Log(string message, FileInfo? logFile = null, params object[] args)
     {
-        text = "|| " + text;
-        for (int i = 0; text.Length < length; i++)
+        var formattedMessage = string.Format(message, args);
+        var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        var logMessage = $"[{timestamp}] {formattedMessage}";
+        Console.WriteLine(logMessage);
+        
+        if (logFile?.Exists ?? false)
         {
-            text += " ";
+            try { logFile.AppendAllText(logMessage + Environment.NewLine); }catch (Exception) {}
         }
-        text = text + " ||";
-        Console.WriteLine(text);
-        return text;
     }
 
     public static string Fill(char c, int width = 80, int padding = 10)
@@ -61,26 +85,21 @@ public static partial class Utils
         return new string(c, width + padding * 2 + 4);
     }
 
-    public static string GetOwnPath()
+    public static string GetOwnName()
     {
-        var possiblePaths = new List<string?>
-        {
-            Process.GetCurrentProcess().MainModule?.FileName,
-            AppContext.BaseDirectory,
-            Environment.GetCommandLineArgs().FirstOrDefault(),
-            Assembly.GetEntryAssembly()?.Location,
-            ".",
-        };
-        foreach (var path in possiblePaths.Where(p => !string.IsNullOrEmpty(p)))
-        {
-            if (System.IO.File.Exists(path!))
-            {
-                return System.IO.Path.GetFullPath(path!);
-            }
-        }
+        var exePath = GetOwnPath();
+        var name = Path.GetFileNameWithoutExtension(exePath.FullName);
+        if (!string.IsNullOrEmpty(name)) return name;
+        var entryAsm = Assembly.GetEntryAssembly();
+        if (entryAsm != null && !string.IsNullOrEmpty(entryAsm.GetName().Name))
+            return entryAsm.GetName().Name!;
+        var procName = Process.GetCurrentProcess().ProcessName;
+        if (!string.IsNullOrEmpty(procName)) return procName;
+        var cmd = Environment.GetCommandLineArgs().FirstOrDefault();
+        if (!string.IsNullOrEmpty(cmd)) return Path.GetFileNameWithoutExtension(cmd);
         return string.Empty;
     }
-
+    
     public static string Base64Encode(string plainText)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -237,6 +256,26 @@ public static partial class Utils
     #endregion
 
     #region FileInfo
+    public static FileInfo GetOwnPath()
+    {
+        var possiblePaths = new List<string?>
+        {
+            Process.GetCurrentProcess().MainModule?.FileName,
+            AppContext.BaseDirectory,
+            Environment.GetCommandLineArgs().FirstOrDefault(),
+            Assembly.GetEntryAssembly()?.Location,
+            ".",
+        };
+        foreach (var path in possiblePaths.Where(p => !string.IsNullOrEmpty(p)))
+        {
+            if (System.IO.File.Exists(path!))
+            {
+                return new FileInfo(System.IO.Path.GetFullPath(path!));
+            }
+        }
+        return new FileInfo(string.Empty);
+    }
+
     public static FileInfo DownloadFile(
         string url,
         DirectoryInfo destinationPath,

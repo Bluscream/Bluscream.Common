@@ -202,6 +202,16 @@ public static partial class Extensions
         return Path.GetFileNameWithoutExtension(file.Name);
     }
 
+    public static FileInfo ReplaceExtension(this FileInfo file, string extension)
+    {
+        if (string.IsNullOrEmpty(extension))
+            throw new ArgumentException("Extension cannot be null or empty.", nameof(extension));
+        if (!extension.StartsWith("."))
+            extension = "." + extension;
+        var newPath = Path.ChangeExtension(file.FullName, extension);
+        return new FileInfo(newPath);
+    }
+
     public static string StatusString(this FileInfo file, bool existsInfo = false)
     {
         if (file is null)
@@ -224,6 +234,11 @@ public static partial class Extensions
             File.AppendAllLines(file.FullName, new string[] { line });
         }
         catch { }
+    }
+
+    public static void AppendAllText(this FileInfo file, string text)
+    {
+        try { File.AppendAllText(file.FullName, text); }catch (Exception) {}
     }
 
     public static string ReadAllText(this FileInfo file) => File.ReadAllText(file.FullName);
