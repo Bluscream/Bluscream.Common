@@ -1,4 +1,5 @@
 #if USE_SYSTEMDRAWING
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,7 +23,7 @@ public static partial class Utils
         {
             try
             {
-                var colorStr = colorString.TrimStart('#');
+                var colorStr = colorString!.TrimStart('#');
                 if (colorStr.Length == 8)
                 {
                     var a = Convert.ToByte(colorStr.Substring(0, 2), 16);
