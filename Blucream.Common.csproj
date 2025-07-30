@@ -65,7 +65,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'">
-    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_NLOG)' == 'true'">
     <PackageReference Include="NLog" Version="5.2.0" />
