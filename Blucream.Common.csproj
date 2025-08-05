@@ -62,7 +62,7 @@
     <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMDRAWING)' == 'true'">
-    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.19" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMWINDOWSFORMS)' == 'true'">
     <PackageReference Include="System.Windows.Forms" Version="4.0.0" />
