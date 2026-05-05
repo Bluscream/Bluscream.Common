@@ -84,6 +84,6 @@
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_NLOG)' == 'true'">
-    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog" Version="6.1.3" />
   </ItemGroup>
 </Project>
