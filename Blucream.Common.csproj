@@ -78,7 +78,7 @@
     <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_NEWTONSOFTJSON)' == 'true'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
   <ItemGroup Condition="'$(USE_SYSTEMTEXTJSON)' == 'true'">
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
